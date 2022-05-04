@@ -11,28 +11,70 @@
 <body>
     <script>
         function setup() {
+            //밤하늘
             createCanvas(windowWidth, windowHeight);
             background('black')
-            frameRate(3)
+            // frameRate(3)
+
+            //잔디 표현 
             fill(0, 97, 13)
             rect(0, 700,windowWidth, windowHeight)
-            noFill()
+            // noFill()
             makeSnow()
+            
+
+            push();
+            fill(139,69,19);
+            translate(windowWidth/2-30, 680);
+            rotate(1.4);
+            rect(0, 0, 40, 100, 7);
+            pop();
+
+
+            // fill(139,69,19)
+            // rect(windowWidth/2-24, 680, 40, 100, 7);
+            
+            push();
+            fill(139,69,19);
+            translate(windowWidth/2, 680);
+            rotate(0.9);
+            rect(0, 0, 40, 100, 7);
+            pop();
+
+            push();
+            fill(139,69,19);
+            translate(windowWidth/2, 710);
+            rotate(-0.9);
+            rect(0, 0, 40, 100, 7);
+            pop();
+            
+            // fill(139,69,19)
+            // rect(windowWidth/2+24, 680, 40, 100, 7);
+
+
+            push();
+            fill(139,69,19);
+            translate(windowWidth/2+50,720);
+            rotate(-1.4);
+            rect(0, 0, 40, 100, 7);
+            pop();
+
         }
 
         function draw() {
-            fill('white')
+
         }
         // circle(random(windowWidth), random(550), 5)
+        
+        //별 밤하늘에 뿌리기
         function makeSnow(){
             fill('white')
             noStroke();
-            for(let i = 0 ; i < 50; i++){
-                push();
-                translate(random(windowWidth), random(550));
-                rotate(frameCount / 50.0);
-                star(0, 0, 5, 1, 50);
-                pop();
+            
+            for(let i = 0 ; i < 40; i++){
+                let w = random(windowWidth)
+                let h = random(550)
+                star(w,h, 3, 1, 5);
             }
         }
 
