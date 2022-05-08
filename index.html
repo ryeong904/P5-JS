@@ -10,29 +10,26 @@
 </head>
 <body>
     <script>
+        let system;
+
         function setup() {
             //밤하늘
             createCanvas(windowWidth, windowHeight);
             background('black')
-            // frameRate(3)
+            // // frameRate(3)
 
             //잔디 표현 
             fill(0, 97, 13)
             rect(0, 700,windowWidth, windowHeight)
-            // noFill()
             makeSnow()
-            
-
+            //장작
+            stroke(10)
             push();
             fill(139,69,19);
             translate(windowWidth/2-30, 680);
             rotate(1.4);
             rect(0, 0, 40, 100, 7);
             pop();
-
-
-            // fill(139,69,19)
-            // rect(windowWidth/2-24, 680, 40, 100, 7);
             
             push();
             fill(139,69,19);
@@ -47,10 +44,6 @@
             rotate(-0.9);
             rect(0, 0, 40, 100, 7);
             pop();
-            
-            // fill(139,69,19)
-            // rect(windowWidth/2+24, 680, 40, 100, 7);
-
 
             push();
             fill(139,69,19);
@@ -59,10 +52,14 @@
             rect(0, 0, 40, 100, 7);
             pop();
 
+            system = new ParticleSystem(createVector(windowWidth/2+10, 710))
+
         }
 
         function draw() {
-
+            // background(100);
+            system.addParticle();
+            system.run();
         }
         // circle(random(windowWidth), random(550), 5)
         
@@ -92,6 +89,58 @@
             }
             endShape(CLOSE);
         }
+        
+        //파티클 클래스
+        //가속도, 속도, 위치, 생명주기
+        let Particle = function(position) {
+            this.acceleration = createVector(0, -0.05);
+            this.velocity = createVector(random(-1,1), random(-1,1));
+            this.position = position.copy();
+            this.lifespan = 270;
+        }
+
+        Particle.prototype.run = function() {
+            this.update();
+            this.display();
+        }
+
+        Particle.prototype.update = function() {
+            this.velocity.add(this.acceleration);
+            this.position.add(this.velocity);
+            this.lifespan -= 2;
+        }
+
+        Particle.prototype.display = function() {
+            stroke(300, this.lifespan);
+            noStroke();
+            fill(this.lifespan-80, 0, 0);
+            ellipse(this.position.x, this.position.y, 40,40);
+        }
+
+        Particle.prototype.isDead = function() {
+            return this.lifespan < 0;
+        }
+
+        let ParticleSystem = function(position) {
+            this.origin = position.copy();
+            this.particles = [];
+        }
+
+        ParticleSystem.prototype.addParticle = function() {
+            this.particles.push(new Particle(this.origin));
+        }
+
+        ParticleSystem.prototype.run = function() {
+            for(let i = this.particles.length-1; i>=0; i--){
+                    let p = this.particles[i];
+                    p.run();
+                    if(p.isDead()){
+                        this.particles.splice(i,1);
+                    }
+                }
+        }
+
+
     </script>
 </body>
 </html>
