@@ -11,58 +11,35 @@
 <body>
     <script>
         let system;
-
+        let circle_x, circle_y;
         function setup() {
-            //밤하늘
             createCanvas(windowWidth, windowHeight);
             background('black')
-            // // frameRate(3)
 
-            //잔디 표현 
-            fill(0, 97, 13)
-            rect(0, 700,windowWidth, windowHeight)
-            makeSnow()
-            //장작
-            stroke(10)
-            push();
-            fill(139,69,19);
-            translate(windowWidth/2-30, 680);
-            rotate(1.4);
-            rect(0, 0, 40, 100, 7);
-            pop();
-            
-            push();
-            fill(139,69,19);
-            translate(windowWidth/2, 680);
-            rotate(0.9);
-            rect(0, 0, 40, 100, 7);
-            pop();
-
-            push();
-            fill(139,69,19);
-            translate(windowWidth/2, 710);
-            rotate(-0.9);
-            rect(0, 0, 40, 100, 7);
-            pop();
-
-            push();
-            fill(139,69,19);
-            translate(windowWidth/2+50,720);
-            rotate(-1.4);
-            rect(0, 0, 40, 100, 7);
-            pop();
-
-            system = new ParticleSystem(createVector(windowWidth/2+10, 710))
-
+            system = new ParticleSystem(createVector(width / 2, 590))
+            circle_x = 40;
+            circle_y = 40;
         }
 
-        function draw() {
-            // background(100);
-            system.addParticle();
-            system.run();
-        }
-        // circle(random(windowWidth), random(550), 5)
         
+        function draw() {
+            background('black');
+            system.addParticle();
+            system.run(circle_x,circle_y);
+
+            if (mouseIsPressed === true) {
+                if (circle_x <= 60 && circle_y <= 60){
+                    circle_x = circle_x + 0.5;
+                    circle_y = circle_y + 0.5;
+                }
+            } else{
+                if (circle_x >= 40 && circle_y >= 40){
+                    circle_x = circle_x - 0.5;
+                    circle_y = circle_y - 0.5;
+                }
+            }
+        }
+
         //별 밤하늘에 뿌리기
         function makeSnow(){
             fill('white')
@@ -99,9 +76,9 @@
             this.lifespan = 270;
         }
 
-        Particle.prototype.run = function() {
+        Particle.prototype.run = function(a,b) {
             this.update();
-            this.display();
+            this.display(a,b);
         }
 
         Particle.prototype.update = function() {
@@ -110,11 +87,11 @@
             this.lifespan -= 2;
         }
 
-        Particle.prototype.display = function() {
+        Particle.prototype.display = function(a,b) {
             stroke(300, this.lifespan);
             noStroke();
             fill(this.lifespan-80, 0, 0);
-            ellipse(this.position.x, this.position.y, 40,40);
+            ellipse(this.position.x, this.position.y, a,b);
         }
 
         Particle.prototype.isDead = function() {
@@ -130,10 +107,10 @@
             this.particles.push(new Particle(this.origin));
         }
 
-        ParticleSystem.prototype.run = function() {
+        ParticleSystem.prototype.run = function(a,b) {
             for(let i = this.particles.length-1; i>=0; i--){
                     let p = this.particles[i];
-                    p.run();
+                    p.run(a,b);
                     if(p.isDead()){
                         this.particles.splice(i,1);
                     }
