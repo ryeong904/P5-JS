@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
-    <script src="./p5.sound.js"></script>
+    <!-- <script src="./p5.sound.js"></script> -->
     <link rel="stylesheet" href="index.css">
     <title>BullMung</title>
 </head>
@@ -13,16 +13,17 @@
     <script>
         let system;
         let circle_x, circle_y;
-        let song;
+        // let song;
 
-        function preload() {
-            song = loadSound('./resource/모닥불소리.mp3');
-        }
+        //크롬 정책 문제로 사운드 autoplay 불가능.
+        // function preload() {
+        //     song = loadSound('./resource/모닥불소리.mp3');
+        // }
 
         function setup() {
             createCanvas(windowWidth, windowHeight);
             background('black')
-            song.play();
+            // song.play();
             system = new ParticleSystem(createVector(width / 2, 590))
             circle_x = 40;
             circle_y = 40;
@@ -46,6 +47,14 @@
                 }
             }
         }
+
+        // function mousePressed() {
+        //     if (song.isPlaying()) {
+        //         song.stop();
+        //     }else{
+        //         song.play();
+        //     }
+        // }
 
         //별 밤하늘에 뿌리기
         function makeSnow(){
